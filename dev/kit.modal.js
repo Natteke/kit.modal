@@ -1,6 +1,6 @@
 /**
  * UI Kit Modal v1.1.0
- * Copyright 2017-2018 Andrey Ponomarenko
+ * Copyright 2017-2019 Andrey Ponomarenko
  * Licensed under  ()
  */
 
@@ -14,12 +14,13 @@ document.kit.modal._modalCounter = 0;
 //data-modal - айди
 //data-trigger - id привязка к модалке
 
-//== Свойства ==
+//== Опции ==
+// position - fixed/Absolute (На весь экран / в блоке)
 // required - закрыть модалку можно только по кнопке, или кодом
 // preventDefault - будет отменять дефолтное действие по нажатию на триггер (если это напр ссылка)
 
 // == Методы окна ==
-// show(event, modalWindow) - показать окно
+// show() - показать окно
 // hide() - скрыть окно
 // addTrigger() - добавить триггер
 
@@ -28,9 +29,21 @@ document.kit.modal._modalCounter = 0;
 // getActive [создать] - возвращает активное окно
 
 // == Коллбеки ==
-//onShow
-//onHide
+//onShow(modalWindow, event)
+//onHide(modalWindow)
 //onTrigger
+
+// == Полезные параметры ==
+// this.id - идентификатор модального окна
+// this.modal - элемент модалка
+// this.stage - внутреннее окно
+
+
+// Цель на завтра
+// Рефактор блокировки скрола
+// Позция фикс/абс - реализация
+// Полный тест
+
 
 class KitModal {
 	constructor(id) {
@@ -57,8 +70,8 @@ class KitModal {
 		this.stage.focus();
 		this.modal.kitAddClass("kit_active");
 		// this.preventActions();
-		if(this.onShow) this.onShow(e,this);
-		// Передает Обьект модалки и ивент, который вызвал событие
+		if(this.onShow) this.onShow(this, e);
+		// Передает Обьект модалки и эвент, который вызвал событие
 	}
 
 	hide() {

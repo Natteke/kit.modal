@@ -1,5 +1,6 @@
 document.kit.modal.createModal('Apple',{
 	// required: true,
+	preventDefault: true,
 	// onShow : showHandler,
 	// onHide : hideHandler,
 	onTrigger : triggerHandler
