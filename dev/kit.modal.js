@@ -18,6 +18,7 @@ document.kit.modal._modalCounter = 0;
 // position - fixed/Absolute (На весь экран / в блоке)
 // required - закрыть модалку можно только по кнопке, или кодом
 // preventDefault - будет отменять дефолтное действие по нажатию на триггер (если это напр ссылка)
+// sticky - внести в список, если элемент в позиции fixed и прижат к правому краю
 
 // == Методы окна ==
 // show() - показать окно
@@ -31,7 +32,7 @@ document.kit.modal._modalCounter = 0;
 // == Коллбеки ==
 //onShow(modalWindow, event)
 //onHide(modalWindow)
-//onTrigger
+//onTrigger(modalWindow, event)
 
 // == Полезные параметры ==
 // this.id - идентификатор модального окна
@@ -40,7 +41,9 @@ document.kit.modal._modalCounter = 0;
 
 
 // Цель на завтра
+// реализовать паттерн перехода
 // Рефактор блокировки скрола
+// добавить дефолтный close метод для кнопки
 // Позция фикс/абс - реализация
 // Полный тест
 
@@ -50,8 +53,13 @@ class KitModal {
 		this.id = id;
 		this.modal = document.querySelector('[data-modal='+id+']');
 		this.stage = document.querySelector('[data-modal='+id+'] .modal_stage');
+		this.scrollIsActive = false;
+
 		this.required = false;
 		this.preventDefault = false;
+		this.lockScroll = true;
+		this.position = 'fixed';
+		this.sticky = [];
 
 		//Callbacks
 		this.onShow = false;
@@ -69,7 +77,7 @@ class KitModal {
 		this.stage.kitAddClass(this.stageIn);
 		this.stage.focus();
 		this.modal.kitAddClass("kit_active");
-		// this.preventActions();
+		if(this.lockScroll) lockScroll(this);
 		if(this.onShow) this.onShow(this, e);
 		// Передает Обьект модалки и эвент, который вызвал событие
 	}
@@ -78,21 +86,28 @@ class KitModal {
 		if(this.modal.kitHasClass("kit_none")) return;
 		this.modal.kitRemoveClass("kit_active");
 		this.stage.kitAddClass(this.stageOut);
-		// this.letActions();
+		if(this.scrollIsActive) releaseScroll(this);
 		if(this.onHide) this.onHide(this);
 	}
 
 	setTrigger (element) {
 		element.addEventListener('click', (e) => {
-			if (this.preventDefault) e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-			if(this.onTrigger) this.onTrigger(e,this);
+			if (this.preventDefault) preventDefault(e);
+			if(this.onTrigger) this.onTrigger(this, e);
+			this.show(e);
+		});
+
+		element.addEventListener('mousedown', (e) => {
+			if (e.button !== 1) return;
+			if (this.preventDefault) preventDefault(e);
+			if(this.onTrigger) this.onTrigger(this, e);
 			this.show(e);
 		});
 
 		element.addEventListener('keydown', (e) => {
 			if(e.keyCode !== 32 || e.keyCode !== 13 ) return;
-			if (this.preventDefault) e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-			if(this.onTrigger) this.onTrigger(e,this);
+			if (this.preventDefault) preventDefault(e);
+			if(this.onTrigger) this.onTrigger(this, e);
 			this.show(e);
 		});
 
@@ -109,7 +124,6 @@ document.kit.modal.createModal = (id, params) => {
 	setListeners(m)
 };
 
-
 // попробовать повесить esc на саму модалку, а не на стейдж
 function setListeners(obj) {
 	let triggers = document.querySelectorAll('[data-trigger='+obj.id+']'),
@@ -118,12 +132,12 @@ function setListeners(obj) {
 	setAnimationEndListener(obj.stage, obj);
 	Object.keys(triggers).forEach((e) => obj.setTrigger(triggers[e],obj));
 
-	obj.stage.addEventListener('blur', function (e) {
+	obj.stage.addEventListener('blur', function () {
 		timer = setTimeout(() => {
 			if(!obj.require) obj.hide()
 		},0);
 	},true);
-	obj.stage.addEventListener('focus',((e) => clearTimeout(timer)), true);
+	obj.stage.addEventListener('focus',(() => clearTimeout(timer)), true);
 }
 
 function setKeyDownListener(element, obj) {
@@ -141,6 +155,40 @@ function setAnimationEndListener(element, obj) {
 			obj.modal.kitAddClass("kit_none");
 		}
 	});
+}
+
+function lockScroll (obj) {
+	let	doc = document.documentElement;
+	document.addEventListener('mousewheel', preventDefault);
+	document.addEventListener('DOMMouseScroll', preventDefault);
+	document.addEventListener('touchmove', preventDefault);
+	doc.kitAddClass('html_scroll_hide');
+	obj.modal.kitAddClass('kit_dis_touch');
+	obj.modal.kitAddClass('modal_scroll');
+	obj.sticky.forEach((t) => t.style.paddingRight = (obj.modal.offsetWidth - doc.offsetWidth) + 'px');
+	obj.scrollIsActive = true;
+}
+
+function releaseScroll(obj) {
+	let	doc = document.documentElement;
+	document.removeEventListener('mousewheel', preventDefault);
+	document.removeEventListener('DOMMouseScroll', preventDefault);
+	document.removeEventListener('touchmove', preventDefault);
+
+	obj.sticky.forEach((t) => t.style.paddingRight = 'inherit');
+	doc.kitRemoveClass('html_scroll_hide');
+	obj.modal.kitRemoveClass('modal_scroll');
+	obj.modal.kitRemoveClass('kit_dis_touch');
+
+	obj.scrollIsActive = false;
+}
+
+function preventDefault(e) {
+	e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+}
+
+function isScroll() {
+	return parseInt(window.getComputedStyle(document.documentElement ,null).height) >= window.innerHeight;
 }
 
 

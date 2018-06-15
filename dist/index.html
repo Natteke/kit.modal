@@ -21,8 +21,8 @@
 <button data-trigger="Apple">SUMMON</button>
 <div class="sepparator">123</div>
 <button data-trigger="Apple">SUMMON</button>
-<div data-trigger="Apple" class="sepparator">123
-    <a href="https://google.com">123123</a>
+<div class="sepparator">123
+    <a data-trigger="Ex" href="https://google.com">Google</a>
     <ul>
         <li>123</li>
         <li>123</li>
@@ -34,6 +34,9 @@
 <div class="sepparator">123</div>
 
 <style>
+    .kit_modal * {
+        font-family: sans-serif;
+    }
     .modal_info-heading {
         font-size: 28px;
         font-weight: 700;
@@ -56,12 +59,13 @@
         color: rgb(33,150,243);
         font-weight: 700;
         border-radius: 2px;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
+         -webkit-touch-callout: none;
+         -webkit-user-select: none;
+         -khtml-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
         user-select: none;
+        text-decoration: none;
     }
 
     button::-moz-focus-inner {
@@ -73,9 +77,19 @@
     <div class="modal_stage">
         <p class="modal_info-heading">Your form was sent</p>
         <p class="modal_info-text">We will contact you as soon as possible.</p>
-        <button class="modal_button modal_info-button" type="button">CLOSE</button>
+        <button onclick="this.modal.hide()" class="modal_button modal_info-button" type="button">CLOSE</button>
     </div>
 </div>
+
+<div data-modal="Ex" class="kit_modal kit_none">
+    <div class="modal_stage">
+        <p class="modal_info-heading">You are leaving our site</p>
+        <p class="modal_info-text">Are you sure about that?</p>
+        <button onclick="this.modal.hide()" class="modal_button modal_info-button" type="button">CLOSE</button>
+        <a href="#" class="leave-btn modal_button modal_info-button" type="button">LEAVE</a>
+    </div>
+</div>
+
 
 <script src="./kit.modal.js"></script>
 <script src="./page.js"></script>
