@@ -20,7 +20,7 @@
 <body>
 <button data-trigger="Apple">SUMMON</button>
 <div class="sepparator">123</div>
-<button data-trigger="Apple">SUMMON</button>
+<button class="newSummoner">New Summoner</button>
 <div class="sepparator">123
     <a data-trigger="Ex" href="https://google.com">Google</a>
     <ul>
@@ -29,7 +29,18 @@
         <li>123</li>
     </ul>
 </div>
-<div class="sepparator">123</div>
+<button data-trigger="absolute">Abs activate</button>
+<div style="height:500px;"  class="sepparator">
+
+    <div data-modal="absolute" class="kit_modal kit_none">
+        <div class="modal_stage">
+            <p class="modal_basic-heading">You are leaving our site</p>
+            <p class="modal_basic-text">Are you sure about that?</p>
+            <button onclick="this.modal.hide()" class="modal_button modal_basic-button" type="button">CLOSE</button>
+        </div>
+    </div>
+
+</div>
 <div class="sepparator">123</div>
 <div class="sepparator">123</div>
 
@@ -37,19 +48,19 @@
     .kit_modal * {
         font-family: sans-serif;
     }
-    .modal_info-heading {
+    .modal_basic-heading {
         font-size: 28px;
         font-weight: 700;
         color: rgba(0,0,0, .87);
     }
 
-    .modal_info-text {
+    .modal_basic-text {
         font-size: 20px;
         padding: 20px 0;
         color: rgba(0,0,0, .54);
     }
 
-    .modal_info-button {
+    .modal_basic-button {
         border: 0;
         padding: 8px;
         margin-right: 8px;
@@ -75,20 +86,24 @@
 
 <div data-modal="Apple" class="kit_modal kit_none">
     <div class="modal_stage">
-        <p class="modal_info-heading">Your form was sent</p>
-        <p class="modal_info-text">We will contact you as soon as possible.</p>
-        <button onclick="this.modal.hide()" class="modal_button modal_info-button" type="button">CLOSE</button>
+        <p class="modal_basic-heading">Your form was sent</p>
+        <p class="modal_basic-text">We will contact you as soon as possible.</p>
+        <button onclick="this.modal.hide()" class="modal_button modal_basic-button" type="button">CLOSE</button>
     </div>
 </div>
 
 <div data-modal="Ex" class="kit_modal kit_none">
     <div class="modal_stage">
-        <p class="modal_info-heading">You are leaving our site</p>
-        <p class="modal_info-text">Are you sure about that?</p>
-        <button onclick="this.modal.hide()" class="modal_button modal_info-button" type="button">CLOSE</button>
-        <a href="#" class="leave-btn modal_button modal_info-button" type="button">LEAVE</a>
+        <p class="modal_basic-heading">You are leaving our site</p>
+        <p class="modal_basic-text">Are you sure about that?</p>
+        <button onclick="this.modal.hide()" class="modal_button modal_basic-button" type="button">CLOSE</button>
+        <a href="#" class="leave-btn modal_button modal_basic-button" type="button">LEAVE</a>
     </div>
 </div>
+
+
+
+
 
 
 <script src="./kit.modal.js"></script>

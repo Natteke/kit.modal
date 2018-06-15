@@ -1,17 +1,22 @@
 document.kit.modal.createModal('Apple',{
-	// required: true,
-	preventDefault: true,
+	// preventDefault: true,
+	lockScroll: false,
 	// onShow : showHandler,
 	// onHide : hideHandler,
 	onTrigger : triggerHandler
 })
 
 document.kit.modal.createModal('Ex',{
-	// required: true,
-	preventDefault: true,
+	required: true,
+	// preventDefault: true,
 	// onShow : showHandler,
 	// onHide : hideHandler,
 	onTrigger : triggerHandler
+})
+
+document.kit.modal.createModal('absolute',{
+	required: true,
+	absolute: true,
 })
 
 function close() {
