@@ -14,10 +14,11 @@ if	(!document.kit.modal) document.kit.modal = {};
 //data-trigger - id привязка к модалке
 
 //== Опции ==
-// position - fixed/Absolute (На весь экран / в блоке)
-// required - закрыть модалку можно только по методом hide
-// preventDefault - будет отменять дефолтное действие по нажатию на триггер (если это напр ссылка)
-// sticky - внести в список, если элемент в позиции fixed и прижат к правому краю
+// position (string) - fixed/Absolute (На весь экран / в блоке)
+// required (true/false) - закрыть модалку можно только по методом hide
+// preventDefault (true/false) - будет отменять дефолтное действие по нажатию на триггер (если это напр ссылка)
+// sticky ('.string') - внести в список, если элемент в позиции fixed и прижат к правому краю
+// storeInstances(true/false/.string) - В каких элементах хранить ссылку на модалку (по дефолту тру, хранит во всех чилдренах модалки)
 
 // == Методы окна ==
 // show() - показать окно
@@ -41,10 +42,6 @@ if	(!document.kit.modal) document.kit.modal = {};
 // this.stage - внутреннее окно
 
 
-// Цель на завтра
-// Полный тест
-
-
 class KitModal {
 	constructor(id) {
 		this.id = id;
@@ -54,10 +51,11 @@ class KitModal {
 		this.lockKeys = [32, 33, 34, 35, 36, 37, 38, 39, 40];
 
 		this.required = false;
-		this.preventDefault = true;
+		this.preventDefault = false;
 		this.lockScroll = true;
 		this.absolute = false;
 		this.sticky = [];
+		this.storeInstances = true;
 
 		//Callbacks
 		this.onShow = false;
@@ -134,15 +132,27 @@ class KitModal {
 
 document.kit.modal.createModal = (id, params) => {
 	let m, siblings;
-	siblings = 	document.querySelectorAll('[data-modal='+id+'] *');
 	document.kit.modal[id] = new KitModal(id);
 	m = document.kit.modal[id];
 	if(params) Object.assign(m,params);
 	m.modal.style.position = m.absolute ? m.becomeAbsolute() : m.becomeFixed();
-	Object.keys(siblings).forEach((i) => siblings[i].modal = m);
+	if(m.storeInstances) linkInstances(m);
 	m.stage.setAttribute('tabindex',0);
 	setListeners(m)
 };
+
+function linkInstances(obj) {
+	let id = obj.id,
+	el;
+	if(typeof obj.storeInstances === 'string') {
+		el = document.querySelectorAll(obj.storeInstances);
+	} else if (obj.storeInstances) {
+		el = document.querySelectorAll('[data-modal='+id+'] *');
+	} else {
+		el = false;
+	}
+	if(el)Object.keys(el).forEach((i) => el[i].modal = document.kit.modal[id]);
+}
 
 function setListeners(obj) {
 	let triggers = document.querySelectorAll('[data-trigger='+obj.id+']'),
@@ -184,7 +194,7 @@ function lockScroll (obj) {
 	document.documentElement.kitAddClass('html_scroll_hide');
 	obj.modal.kitAddClass('kit_dis_touch');
 	obj.modal.kitAddClass('modal_scroll');
-	obj.sticky.forEach((t) => t.style.paddingRight = (obj.modal.offsetWidth - doc.offsetWidth) + 'px');
+	obj.sticky.forEach((t) => t.style.paddingRight = (obj.modal.offsetWidth - document.documentElement.offsetWidth) + 'px');
 	obj.scrollIsActive = true;
 }
 

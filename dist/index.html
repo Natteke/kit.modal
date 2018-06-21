@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="styles/kit.modal.css">
+    <link rel="stylesheet" href="kit.modal.css">
 </head>
 
 <style>
@@ -87,7 +87,7 @@
 <div data-modal="Apple" class="kit_modal kit_none">
     <div class="modal_stage">
         <p class="modal_basic-heading">Your form was sent</p>
-        <p class="modal_basic-text">We will contact you as soon as possible.</p>
+        <p class="setinst modal_basic-text">We will contact you as soon as possible.</p>
         <button onclick="this.modal.hide()" class="modal_button modal_basic-button" type="button">CLOSE</button>
     </div>
 </div>
@@ -95,7 +95,7 @@
 <div data-modal="Ex" class="kit_modal kit_none">
     <div class="modal_stage">
         <p class="modal_basic-heading">You are leaving our site</p>
-        <p class="modal_basic-text">Are you sure about that?</p>
+        <p class=" modal_basic-text">Are you sure about that?</p>
         <button onclick="this.modal.hide()" class="modal_button modal_basic-button" type="button">CLOSE</button>
         <a href="#" class="leave-btn modal_button modal_basic-button" type="button">LEAVE</a>
     </div>
@@ -107,6 +107,49 @@
 
 
 <script src="./kit.modal.js"></script>
-<script src="./page.js"></script>
+<script>
+
+	document.kit.modal.createModal('Apple',{
+    });
+
+	document.kit.modal.createModal('Ex',{
+		required: true,
+		// preventDefault: true,
+		// onShow : showHandler,
+		// onHide : hideHandler,
+		onTrigger : triggerHandler
+	});
+
+	document.kit.modal.createModal('absolute',{
+		required: true,
+		absolute: true,
+	});
+
+	function close() {
+		console.dir(this);
+	}
+
+	function proceed() {
+		console.dir(this);
+	}
+
+	function showHandler(a, b) {
+		console.log(a);
+		console.log(b)
+	}
+
+	function hideHandler(a, b) {
+		console.log(a);
+		console.log(b)
+	}
+
+	function triggerHandler(modal, event) {
+		let btn = document.querySelector('.leave-btn');
+		btn.href = event.target.href;
+	}
+
+
+</script>
+
 </body>
 </html>
