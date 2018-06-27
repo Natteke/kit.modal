@@ -97,6 +97,7 @@ class KitModal {
 
 	addTrigger (input) {
 		let set = (element) => {
+			element.modal = this;
 			element.addEventListener('click', (e) => {
 				if (this.preventDefault) preventDefault(e);
 				if(this.onTrigger) this.onTrigger(this, e);
