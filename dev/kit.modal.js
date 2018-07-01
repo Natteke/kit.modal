@@ -32,14 +32,22 @@ if	(!document.kit.modal) document.kit.modal = {};
 // getActive [создать] - возвращает активное окно
 
 // == Коллбеки ==
-//onShow(modalWindow, event)
-//onHide(modalWindow)
-//onTrigger(modalWindow, event)
+//onShow(event)
+// this - модальное окно
+// event - event
+
+//onHide()
+// this - модальное окно
+
+//onTrigger(event)
+// this - модальное окно
+// event - event
 
 // == Полезные параметры ==
 // this.id - идентификатор модального окна
 // this.modal - элемент модалка
 // this.stage - внутреннее окно
+//
 
 
 class KitModal {
@@ -63,8 +71,8 @@ class KitModal {
 		this.onTrigger = false;
 
 		//Animations
-		this.stageIn = "fadeIn";
-		this.stageOut = "fadeOut";
+		this.stageIn = "fadeInUp";
+		this.stageOut = "fadeOutDown";
 	}
 
 	show(e) {
@@ -74,7 +82,7 @@ class KitModal {
 		this.stage.focus();
 		this.modal.kitAddClass("kit_active");
 		if(this.lockScroll && isScroll()) lockScroll(this);
-		if(this.onShow) this.onShow(this, e);
+		if(this.onShow) this.onShow(e);
 	}
 
 	hide() {
@@ -82,7 +90,7 @@ class KitModal {
 		this.modal.kitRemoveClass("kit_active");
 		this.stage.kitAddClass(this.stageOut);
 		if(this.scrollIsActive) releaseScroll(this);
-		if(this.onHide) this.onHide(this);
+		if(this.onHide) this.onHide();
 	}
 
 	becomeFixed() {
@@ -100,19 +108,19 @@ class KitModal {
 			element.modal = this;
 			element.addEventListener('click', (e) => {
 				if (this.preventDefault) preventDefault(e);
-				if(this.onTrigger) this.onTrigger(this, e);
+				if(this.onTrigger) this.onTrigger(e);
 				this.show(e);
 			});
 			element.addEventListener('mousedown', (e) => {
 				if (e.button !== 1) return;
 				if (this.preventDefault) preventDefault(e);
-				if(this.onTrigger) this.onTrigger(this, e);
+				if(this.onTrigger) this.onTrigger(e);
 				this.show(e);
 			});
 			element.addEventListener('keydown', (e) => {
 				if(e.keyCode !== 32 || e.keyCode !== 13 ) return;
 				if (this.preventDefault) preventDefault(e);
-				if(this.onTrigger) this.onTrigger(this, e);
+				if(this.onTrigger) this.onTrigger(e);
 				this.show(e);
 			});
 		};
