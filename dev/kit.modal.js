@@ -9,6 +9,7 @@
 if	(!document.kit) document.kit = {};
 if	(!document.kit.modal) document.kit.modal = {};
 let doc = document.documentElement;
+window.kit = document.kit;
 
 // == Инициализация ==
 //data-modal - айди
@@ -18,7 +19,7 @@ let doc = document.documentElement;
 // position (string) - fixed/Absolute (На весь экран / в блоке)
 // required (true/false) - закрыть модалку можно только по методом hide
 // preventDefault (true/false) - будет отменять дефолтное действие по нажатию на триггер (если это напр ссылка)
-// sticky ('.string') - внести в список, если элемент в позиции fixed и прижат к правому краю
+// fixed ('.string') - внести в список, если элемент в позиции fixed и прижат к правому краю
 // storeInstances(true/false/.string) - В каких элементах хранить ссылку на модалку (по дефолту тру, хранит во всех чилдренах модалки)
 
 // == Методы окна ==
@@ -30,7 +31,6 @@ let doc = document.documentElement;
 
 // == Глобальные методы ==
 // createModal - создает модальное окно
-// getActive [создать] - возвращает активное окно
 
 // == Коллбеки ==
 //onShow(event)
@@ -58,12 +58,13 @@ class KitModal {
 		this.stage = document.querySelector('[data-modal='+id+'] .modal_stage');
 		this.scrollIsActive = false;
 		this.lockKeys = [32, 33, 34, 35, 36, 37, 38, 39, 40];
+		this.elementsForScrollPadding = [];
 
 		this.required = false;
 		this.preventDefault = false;
 		this.lockScroll = true;
 		this.absolute = false;
-		this.sticky = [];
+		this.fixed = false;
 		this.storeInstances = true;
 
 		//Callbacks
@@ -146,11 +147,18 @@ document.kit.modal.createModal = (id, params) => {
 	m = document.kit.modal[id];
 	if(params) Object.assign(m,params);
 	m.modal.style.position = m.absolute ? m.becomeAbsolute() : m.becomeFixed();
-	m.sticky.push(doc);
 	if(m.storeInstances) linkInstances(m);
+	setElementsForScrollPadding(m);
 	m.stage.setAttribute('tabindex',0);
 	setListeners(m)
 };
+
+function setElementsForScrollPadding(obj) {
+	let e = document.querySelectorAll(obj.fixed);
+	obj.elementsForScrollPadding.push(doc);
+	if(obj.fixed) Object.keys(e).forEach((i) =>
+		obj.elementsForScrollPadding.push(e[i]));
+}
 
 function linkInstances(obj) {
 	let id = obj.id,
@@ -199,7 +207,7 @@ function setAnimationEndListener(element, obj) {
 
 function lockScroll (obj) {
 	//important to save width in variable to determinate scroll, before applying 'scroll_hide' to document;
-	var width = doc.offsetWidth;
+	let width = doc.offsetWidth;
 	document.addEventListener('mousewheel', preventDefault);
 	document.addEventListener('DOMMouseScroll', preventDefault);
 	document.addEventListener('touchmove', preventDefault);
@@ -207,7 +215,8 @@ function lockScroll (obj) {
 	doc.kitAddClass('html_scroll_hide');
 	obj.modal.kitAddClass('kit_dis_touch');
 	obj.modal.kitAddClass('modal_scroll');
-	obj.sticky.forEach((t) => t.style.paddingRight = (obj.modal.offsetWidth - width) + 'px');
+	obj.elementsForScrollPadding.forEach((t) =>
+		t.style.paddingRight = (obj.modal.offsetWidth - width) + 'px');
 	obj.scrollIsActive = true;
 }
 
@@ -216,7 +225,8 @@ function releaseScroll(obj) {
 	document.removeEventListener('DOMMouseScroll', preventDefault);
 	document.removeEventListener('touchmove', preventDefault);
 	document.removeEventListener('keydown', preventKeys.bind(obj));
-	obj.sticky.forEach((t) => t.style.paddingRight = 'inherit');
+	obj.elementsForScrollPadding.forEach((t) =>
+		t.style.paddingRight = '');
 	doc.kitRemoveClass('html_scroll_hide');
 	obj.modal.kitRemoveClass('modal_scroll');
 	obj.modal.kitRemoveClass('kit_dis_touch');

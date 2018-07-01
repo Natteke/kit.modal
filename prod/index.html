@@ -7,6 +7,10 @@
 </head>
 
 <style>
+    * {
+        box-sizing: border-box;
+    }
+
     .sepparator {
         width: 100%;
         height: 100px;
@@ -15,9 +19,26 @@
         padding: 20px;
         margin-bottom: 100px;
     }
+
+    .header {
+        height: 50px;
+        background-color: deepskyblue;
+        padding: 20px;
+        position: fixed;
+        z-index: 11;
+        left: 0;
+        right: 0;
+    }
+
 </style>
 
 <body>
+<header class="header">
+    <p>
+        123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123
+    </p>
+</header><div class="sepparator">123</div>
+
 <button data-trigger="Apple">SUMMON</button>
 <div class="sepparator">123</div>
 <button class="newSummoner">New Summoner</button>
@@ -110,6 +131,7 @@
 <script>
 
 	document.kit.modal.createModal('Apple',{
+		fixed: 'header'
     });
 
 	document.kit.modal.createModal('Ex',{
