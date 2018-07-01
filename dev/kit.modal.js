@@ -8,6 +8,7 @@
 
 if	(!document.kit) document.kit = {};
 if	(!document.kit.modal) document.kit.modal = {};
+let doc = document.documentElement;
 
 // == Инициализация ==
 //data-modal - айди
@@ -140,11 +141,12 @@ class KitModal {
 }
 
 document.kit.modal.createModal = (id, params) => {
-	let m, siblings;
+	let m;
 	document.kit.modal[id] = new KitModal(id);
 	m = document.kit.modal[id];
 	if(params) Object.assign(m,params);
 	m.modal.style.position = m.absolute ? m.becomeAbsolute() : m.becomeFixed();
+	m.sticky.push(doc);
 	if(m.storeInstances) linkInstances(m);
 	m.stage.setAttribute('tabindex',0);
 	setListeners(m)
@@ -196,14 +198,16 @@ function setAnimationEndListener(element, obj) {
 }
 
 function lockScroll (obj) {
+	//important to save width in variable to determinate scroll, before applying 'scroll_hide' to document;
+	var width = doc.offsetWidth;
 	document.addEventListener('mousewheel', preventDefault);
 	document.addEventListener('DOMMouseScroll', preventDefault);
 	document.addEventListener('touchmove', preventDefault);
 	document.addEventListener('keydown', preventKeys.bind(obj));
-	document.documentElement.kitAddClass('html_scroll_hide');
+	doc.kitAddClass('html_scroll_hide');
 	obj.modal.kitAddClass('kit_dis_touch');
 	obj.modal.kitAddClass('modal_scroll');
-	obj.sticky.forEach((t) => t.style.paddingRight = (obj.modal.offsetWidth - document.documentElement.offsetWidth) + 'px');
+	obj.sticky.forEach((t) => t.style.paddingRight = (obj.modal.offsetWidth - width) + 'px');
 	obj.scrollIsActive = true;
 }
 
@@ -213,10 +217,9 @@ function releaseScroll(obj) {
 	document.removeEventListener('touchmove', preventDefault);
 	document.removeEventListener('keydown', preventKeys.bind(obj));
 	obj.sticky.forEach((t) => t.style.paddingRight = 'inherit');
-	document.documentElement.kitRemoveClass('html_scroll_hide');
+	doc.kitRemoveClass('html_scroll_hide');
 	obj.modal.kitRemoveClass('modal_scroll');
 	obj.modal.kitRemoveClass('kit_dis_touch');
-
 	obj.scrollIsActive = false;
 }
 
@@ -225,7 +228,7 @@ function preventDefault(e) {
 }
 
 function isScroll() {
-	return parseInt(window.getComputedStyle(document.documentElement ,null).height) >= window.innerHeight;
+	return parseInt(window.getComputedStyle(doc ,null).height) >= window.innerHeight;
 }
 function preventKeys (e) {
 	if(this.lockKeys.indexOf(e.keyCode) >= 0) {

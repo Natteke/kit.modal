@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build",
     "server": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack-dev-server --config webpack.dev.js && webpack --watch --config webpack.dev.js",
+    "build": "webpack --config webpack.dev.js && webpack-dev-server --config webpack.dev.js",
     "prod": "webpack --config webpack.prod.js &&  cp dist/kit.modal.css prod/kit.modal.css && cp dist/kit.modal.info.css prod/kit.modal.info.css && cp dist/index.html prod/index.html && webpack-dev-server --config webpack.prod.js "
   },
   "repository": {
