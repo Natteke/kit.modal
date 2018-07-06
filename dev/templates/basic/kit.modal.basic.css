@@ -1,0 +1,67 @@
+.kit_modal * {
+    font-family: sans-serif;
+}
+.kit_modal .basic-stage {
+    background-color: #ffffff;
+    padding: 20px 24px;
+    width: 90%;
+    border-radius: 7px;
+    max-width: 500px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    line-height: 1;
+}
+.kit_modal .basic-heading {
+    font-size: 28px;
+    margin: 0 0 20px 0;
+    padding: 0 8px;
+    font-weight: 700;
+    color: rgba(0,0,0, .87);
+    user-select: none;
+}
+
+.kit_modal .basic-text {
+    margin-bottom: 20px;
+    font-size: 20px;
+    padding: 0 8px;
+    color: rgba(0,0,0, .54);
+    user-select: none;
+}
+
+.basic-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.kit_modal .basic-button:not(:first-child) {
+    margin-left: 20px;
+}
+
+.kit_modal .basic-button {
+    display: block;
+    border: 0;
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+    background-color: transparent;
+    font-size: 18px;
+    color: rgb(33,150,243);
+    font-weight: 700;
+    border-radius: 2px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-decoration: none;
+}
+
+.kit_modal .basic-button:hover,
+.kit_modal .basic-button:focus {
+    color: rgb(27,130,223);
+}
+
+.kit_modal button::-moz-focus-inner {
+    border: 0;
+}
