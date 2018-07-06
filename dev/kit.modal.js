@@ -1,3 +1,4 @@
+import './kit.modal.css';
 /**
  * UI Kit Modal v1.1.0
  * Copyright 2017-2019 Andrey Ponomarenko
@@ -150,6 +151,8 @@ document.kit.modal.createModal = (id, params) => {
 	if(m.storeInstances) linkInstances(m);
 	setElementsForScrollPadding(m);
 	m.stage.setAttribute('tabindex',0);
+	m.modal.setAttribute('tabindex',0);
+	m.modal.kitAddClass('kit_none');
 	setListeners(m)
 };
 
@@ -179,8 +182,12 @@ function setListeners(obj) {
 	setKeyDownListener(obj.stage,obj);
 	setAnimationEndListener(obj.stage, obj);
 	Object.keys(triggers).forEach((e) => obj.addTrigger(triggers[e],obj));
+	//
+	// obj.modal.addEventListener('click', function(e) {
+	// 	if(e.target === this && !obj.required) obj.hide();
+	// });
 
-	obj.stage.addEventListener('blur', function () {
+	obj.stage.addEventListener('blur', () => {
 		timer = setTimeout(() => {
 			if(!obj.required) obj.hide();
 		},0);
@@ -212,9 +219,8 @@ function lockScroll (obj) {
 	document.addEventListener('DOMMouseScroll', preventDefault);
 	document.addEventListener('touchmove', preventDefault);
 	document.addEventListener('keydown', preventKeys.bind(obj));
-	doc.kitAddClass('html_scroll_hide');
-	obj.modal.kitAddClass('kit_dis_touch');
-	obj.modal.kitAddClass('modal_scroll');
+	doc.kitAddClass('kit_document-live');
+	obj.modal.kitAddClass('kit_modal-live');
 	obj.elementsForScrollPadding.forEach((t) =>
 		t.style.paddingRight = (obj.modal.offsetWidth - width) + 'px');
 	obj.scrollIsActive = true;
@@ -227,9 +233,8 @@ function releaseScroll(obj) {
 	document.removeEventListener('keydown', preventKeys.bind(obj));
 	obj.elementsForScrollPadding.forEach((t) =>
 		t.style.paddingRight = '');
-	doc.kitRemoveClass('html_scroll_hide');
-	obj.modal.kitRemoveClass('modal_scroll');
-	obj.modal.kitRemoveClass('kit_dis_touch');
+	doc.kitRemoveClass('kit_document-live');
+	obj.modal.kitRemoveClass('kit_modal-live');
 	obj.scrollIsActive = false;
 }
 

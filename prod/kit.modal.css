@@ -5,6 +5,7 @@
     margin: 0;
     padding: 0;
     font-family: inherit;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 .kit_modal {
@@ -26,16 +27,13 @@
 .kit_fixed { position: fixed; }
 .kit_relative { position: relative; }
 
-.kit_dis_touch {
-    touch-action: none;
-}
-
-.modal_scroll{
-    overflow-y: scroll;
-}
-
-.html_scroll_hide{
+.kit_document-live{
     overflow-y: hidden;
+}
+
+.kit_modal-live{
+    overflow-y: scroll;
+    touch-action: none;
 }
 
 .kit_modal.kit_active {
