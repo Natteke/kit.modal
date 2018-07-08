@@ -6,7 +6,7 @@ It is a flexible modal window plugin allowing you to create:
 * Pop-ups
 * Pre-loaders
 
-It also can be used as a window scroll locker.
+You can lock scroll with it, and it's compatible with **React**
 
 ### Link
 Kit Modal :tada: - https://natteke.github.io/kit/modal/demos/
