@@ -14,7 +14,7 @@ Kit Modal :tada: - https://natteke.github.io/kit/modal/demos/
 ## Installation
 ### CSS
 ```HTML
-&lt;link rel=&quot;stylesheet&quot; href=&quot;/styles/kit.modal.css&quot;&gt;
+<link rel="stylesheet" href="/styles/kit.modal.css">
 ```
 ### HTML
 ```HTML
