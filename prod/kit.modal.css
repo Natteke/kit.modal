@@ -17,10 +17,12 @@
     transition: background-color 0.2s ease-in;
     z-index: 99;
     display: flex;
-    justify-content: center;
-    align-items: center;
     color: #333333;
     touch-action: auto;
+}
+
+.modal_stage {
+    margin: auto;
 }
 
 .kit_absolute { position: absolute; }

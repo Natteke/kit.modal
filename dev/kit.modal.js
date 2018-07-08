@@ -215,9 +215,10 @@ function setAnimationEndListener(element, obj) {
 function lockScroll (obj) {
 	//important to save width in variable to determinate scroll, before applying 'scroll_hide' to document;
 	let width = doc.offsetWidth;
-	document.addEventListener('mousewheel', preventDefault);
-	document.addEventListener('DOMMouseScroll', preventDefault);
-	document.addEventListener('touchmove', preventDefault);
+	// document.addEventListener('mousewheel', preventDefault);
+	// document.addEventListener('DOMMouseScroll', preventDefault);
+	document.addEventListener('touchmove', preventDefault,{passive:false});
+	document.addEventListener('gesturechange', preventDefault);
 	document.addEventListener('keydown', preventKeys.bind(obj));
 	doc.kitAddClass('kit_document-live');
 	obj.modal.kitAddClass('kit_modal-live');
@@ -227,9 +228,10 @@ function lockScroll (obj) {
 }
 
 function releaseScroll(obj) {
-	document.removeEventListener('mousewheel', preventDefault);
-	document.removeEventListener('DOMMouseScroll', preventDefault);
-	document.removeEventListener('touchmove', preventDefault);
+	// document.removeEventListener('mousewheel', preventDefault);
+	// document.removeEventListener('DOMMouseScroll', preventDefault);
+	document.removeEventListener('touchmove', preventDefault,{passive:false});
+	document.removeEventListener('gesturechange', preventDefault);
 	document.removeEventListener('keydown', preventKeys.bind(obj));
 	obj.elementsForScrollPadding.forEach((t) =>
 		t.style.paddingRight = '');
