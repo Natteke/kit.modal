@@ -36,7 +36,7 @@ kit.modal.createModal('Name');
 ```
 
 Full guide could be found here:
-http://localhost:8080/kit/modal/docs
+https://natteke.github.io/kit/modal/docs/
 
 ### Licence
 The code and the documentation are released under the MIT License.
