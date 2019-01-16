@@ -33,7 +33,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.js$/,
-				include: common.prod,
+				include: common.dev,
 				loader: "babel-loader",
 				query: {
 					presets:['react', 'es2015', 'stage-2']
