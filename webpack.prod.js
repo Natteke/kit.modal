@@ -35,8 +35,9 @@ module.exports = {
 				test: /\.js$/,
 				include: common.dev,
 				loader: "babel-loader",
-				query: {
-					presets:['react', 'es2015', 'stage-2']
+				options: {
+					presets:['react', 'es2015', 'stage-2'],
+					plugins: ["babel-plugin-transform-object-assign"]
 				}
 			},
 			{
