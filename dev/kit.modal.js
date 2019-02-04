@@ -66,6 +66,7 @@ class KitModal {
 		this.lockScroll = true;
 		this.absolute = false;
 		this.fixed = false;
+		this.focusStage = true;
 		this.storeInstances = true;
 
 		//Callbacks
@@ -82,7 +83,7 @@ class KitModal {
 		if(!this.modal.kitHasClass("kit_none")) return;
 		this.modal.kitRemoveClass("kit_none");
 		this.stage.kitAddClass(this.stageIn);
-		this.stage.focus();
+		if (this.focusStage) this.stage.focus();
 		this.modal.kitAddClass("kit_active");
 		if(this.lockScroll && isScroll()) lockScroll(this);
 		if(this.onShow) this.onShow(e);
