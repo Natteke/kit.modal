@@ -1,10 +1,11 @@
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 let path = require('path'),
 	common = {
 		mode: 'production',
 		dev: __dirname + '/dev/',
 		dist: __dirname + '/dist/',
-		prod: __dirname + '/prod/'
+		prod: path.resolve(__dirname + '/prod/'),
 	};
 
 module.exports = {
@@ -16,13 +17,17 @@ module.exports = {
 		path: common.prod,
 		filename: '[name].js',
 		chunkFilename: 'chunks/[id].js',
-		publicPath: common.prod
 	},
 	devServer: {
 		contentBase: common.prod,
 		port: 8080
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			'process.env': {
+				'NODE_ENV': JSON.stringify('production'),
+			},
+		}),
 		new MiniCssExtractPlugin({
 			// Options similar to the same options in webpackOptions.output
 			// both options are optional
@@ -36,7 +41,7 @@ module.exports = {
 				include: common.dev,
 				loader: "babel-loader",
 				options: {
-					presets:['react', 'es2015', 'stage-2'],
+					presets:['es2015', 'stage-2'],
 					plugins: ["babel-plugin-transform-object-assign"]
 				}
 			},

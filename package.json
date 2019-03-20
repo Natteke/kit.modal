@@ -9,7 +9,8 @@
     "server:prod": "webpack-dev-server --open --config webpack.prod.js",
     "dev": "webpack --config webpack.dev.js && cp dev/kit.modal.css dist/kit.modal.css && cp -a dist/. /Users/andrejponomarenko/Projects/kit/plugins/modal",
     "prod": "webpack --config webpack.prod.js &&  cp -a dev/templates prod &&  cp -a dev/kit.modal.css prod && zip -r prod/kit.modal.zip prod",
-    "toWeb": "cp -R -a prod/. /Users/andrejponomarenko/Projects/kit/plugins/modal"
+    "toWeb": "cp -R -a prod/. /Users/andrejponomarenko/Projects/kit/plugins/modal",
+    "build": "npm run prod && npm run toWeb"
   },
   "repository": {
     "type": "git",
