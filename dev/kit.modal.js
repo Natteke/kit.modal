@@ -111,19 +111,25 @@ class KitModal {
 		let set = (element) => {
 			element.modal = this;
 			element.addEventListener('click', (e) => {
-				if (this.preventDefault) preventDefault(e);
+				// всегда делать превент, тк если элемент фокусабельный, будет срабатывать blur, и сразу закрывать окно
+                // также добавить флаг на блюр-закрытие, false по дефолту
+			    preventDefault(e);
 				if(this.onTrigger) this.onTrigger(e);
 				this.show(e);
 			});
 			element.addEventListener('mousedown', (e) => {
 				if (e.button !== 1) return;
-				if (this.preventDefault) preventDefault(e);
+				// всегда делать превент, тк если элемент фокусабельный, будет срабатывать blur, и сразу закрывать окно
+                // также добавить флаг на блюр-закрытие, false по дефолту
+				preventDefault(e);
 				if(this.onTrigger) this.onTrigger(e);
 				this.show(e);
 			});
 			element.addEventListener('keydown', (e) => {
 				if(e.keyCode !== 32 || e.keyCode !== 13 ) return;
-				if (this.preventDefault) preventDefault(e);
+				// всегда делать превент, тк если элемент фокусабельный, будет срабатывать blur, и сразу закрывать окно
+                // также добавить флаг на блюр-закрытие, false по дефолту
+				preventDefault(e);
 				if(this.onTrigger) this.onTrigger(e);
 				this.show(e);
 			});
